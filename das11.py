@@ -173,21 +173,23 @@ pca_scores_df = pd.DataFrame((np.round_(components, decimals = 5)), columns = pc
 
 ###############  Event Picker and Plot
 
-fig = plt.figure()
-ax = fig.add_subplot(111)
-ax.set_title('click on points')
+#fig = plt.figure()
+#ax = fig.add_subplot(111)
+#ax.set_title('click on points')
+fig,axs = plt.subplots(1,2)
+axs[0].set_title('click on points')
 
 x = (np.round_(components[:,0], decimals = 5))
 y = (np.round_(components[:,1], decimals = 5))
 #line, = ax.plot(np.random.rand(100), 'o', picker=5)  # 5 points tolerance
-scatter = ax.scatter(x,y,picker=True) #previously plt.scatter chilo
+scatter = axs[0].scatter(x,y,picker=True) #previously plt.scatter chilo
 
 #axs.set_title('click on points')
 
 
 #######   Step2 : Create Annotation Object
 
-annotation = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
+annotation = axs[0].annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                     bbox=dict(boxstyle="round", fc="w"),
                     arrowprops=dict(arrowstyle="->"))
 annotation.set_visible(False)
@@ -196,7 +198,7 @@ annotation.set_visible(False)
 
 def motion_hover(event):
     annotation_visibility = annotation.get_visible()
-    if event.inaxes == ax:  #if mouse cursor is inside ax
+    if event.inaxes == axs[0]:  #if mouse cursor is inside ax
         is_conatained, annotation_index = scatter.contains(event) # detecting whether cursor is on a data point
         if is_conatained:
             data_point_location = scatter.get_offsets()[annotation_index['ind'][0]] 
@@ -223,8 +225,8 @@ fig.canvas.mpl_connect('motion_notify_event', motion_hover)
 
 
 
-fig2 = plt.figure(2)
-axs = fig2.add_subplot()
+#fig2 = plt.figure(2)
+#axs = fig2.add_subplot()
 #fig2,axs = plt.subplots()
 
 def scatter_file_name(param):
@@ -312,28 +314,31 @@ def onpick(event):
 
   a,b = final['TimeStamp'], final[' Magnitude']
   #line1, = axs.plot(a,b)
-  plt.title(final1, fontsize=18)
-  axs.set_xlabel("TimeStamp", fontsize=15)
-  axs.set_ylabel("Magnitude", fontsize=15)
+  #plt.title(final1, fontsize=18)
+  axs[1].set_title(final1, fontsize=18)
+  axs[1].set_xlabel("TimeStamp", fontsize=15)
+  axs[1].set_ylabel("Magnitude", fontsize=15)
   #fig2.canvas.draw()
   #plt.draw()
   if c == 1:
-    line1, = axs.plot(a,b)
-    axs.set_title(final1, fontsize=18)
-    axs.set_xlabel("TimeStamp", fontsize=15)
-    axs.set_ylabel("Magnitude", fontsize=15)
-    fig2.canvas.draw_idle()
+    line1, = axs[1].plot(a,b)
+    axs[1].set_title(final1, fontsize=18)
+    axs[1].set_xlabel("TimeStamp", fontsize=15)
+    axs[1].set_ylabel("Magnitude", fontsize=15)
+    #fig2.canvas.draw_idle()
+    #axs[1].draw_idle()
     root.mainloop()
 
   else:
-     axs.clear() # clearing the first plot in this axs
+     axs[1].clear() # clearing the first plot in this axs
      line1.set_xdata(a)  # updating a and y values of scatter plot
      line1.set_ydata(b)
-     line1, = axs.plot(a,b)
-     axs.set_title(final1, fontsize=18)
-     axs.set_xlabel("TimeStamp", fontsize=15)
-     axs.set_ylabel("Magnitude", fontsize=15)
-     fig2.canvas.draw_idle()
+     line1, = axs[1].plot(a,b)
+     axs[1].set_title(final1, fontsize=18)
+     axs[1].set_xlabel("TimeStamp", fontsize=15)
+     axs[1].set_ylabel("Magnitude", fontsize=15)
+     #fig2.canvas.draw_idle()
+     #axs[1].draw_idle()
      root.mainloop()
 
   #plt.show()

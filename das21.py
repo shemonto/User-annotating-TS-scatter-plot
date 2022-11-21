@@ -261,12 +261,21 @@ labels = ("a","b","c")
 
 def submit():
     global name
-    print('hello  ',ind)
-    scatter._facecolors[obj.ind,:] = (0.1, 0.2, 0.5, 0.3)
     name=var.get()
+    class_color()
     new_test(name)
     print("The label is : " + name)
     var.set("")
+
+
+def class_color():
+    if name == 'a':
+        scatter._facecolors[obj.ind,:] = (1, 0, 0, 1)
+    elif name == 'b':
+        scatter._facecolors[obj.ind,:] = (0,0,1,0)
+    else:
+        scatter._facecolors[obj.ind,:] = (0,1,0,1)
+    
 
 
 def new_test(p_name):
